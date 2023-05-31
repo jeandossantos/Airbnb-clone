@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 
 export default function LoginModal() {
   const router = useRouter();
+
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
@@ -56,6 +57,11 @@ export default function LoginModal() {
       })
       .finally(() => setIsLoading(false));
   };
+
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -100,12 +106,12 @@ export default function LoginModal() {
       />
 
       <div className="flex items-center justify-center gap-3 mt-4 font-light text-center text-neutral-500">
-        <span>Already have an account? </span>{' '}
+        <span>First time on Airbnb? </span>{' '}
         <span
-          onClick={loginModal.onClose}
+          onClick={toggle}
           className="cursor-pointer text-neutral-800 hover:underline"
         >
-          Log in
+          Create an account!
         </span>
       </div>
     </div>
