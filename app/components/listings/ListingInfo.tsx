@@ -1,6 +1,6 @@
 import { useCountries } from '@/app/hooks/useCountries';
 import { SafeUser } from '@/app/types';
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { IconType } from 'react-icons';
 import Avatar from '../Avatar';
 import ListingCategory from './ListingCategory';
@@ -22,7 +22,7 @@ interface ListingInfoProps {
   locationValue: string;
 }
 
-export default function ListingInfo({
+function ListingInfo({
   user,
   category,
   description,
@@ -32,12 +32,15 @@ export default function ListingInfo({
   locationValue,
 }: ListingInfoProps) {
   const { getByValue } = useCountries();
+  const country = getByValue(locationValue);
 
   const Map = dynamic(() => import('../Map'), {
     ssr: false,
   });
 
-  const coordinates = getByValue(locationValue)?.latlng;
+  const coordinates = useMemo(() => {
+    return country?.latlng;
+  }, [country]);
 
   return (
     <div className="flex flex-col col-span-4 gap-8 ">
@@ -69,3 +72,5 @@ export default function ListingInfo({
     </div>
   );
 }
+
+export default memo(ListingInfo);

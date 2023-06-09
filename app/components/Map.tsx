@@ -7,6 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { memo } from 'react';
 
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
@@ -24,7 +25,7 @@ const url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const attribution =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-export default function Map({ center }: MapProps) {
+function Map({ center = [] }: MapProps) {
   return (
     <MapContainer
       center={(center as L.LatLngExpression) || [51, -0.09]}
@@ -38,3 +39,11 @@ export default function Map({ center }: MapProps) {
     </MapContainer>
   );
 }
+
+export default memo(Map, (prev, next) => {
+  const prevCenter = prev.center || [];
+
+  if (!prevCenter?.length) return false;
+
+  return true;
+});

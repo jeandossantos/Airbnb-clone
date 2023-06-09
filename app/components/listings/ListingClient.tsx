@@ -4,6 +4,7 @@ import { differenceInCalendarDays, eachDayOfInterval } from 'date-fns';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Range } from 'react-date-range';
 
 import { SafeListing, SafeReservation, SafeUser } from '@/app/types';
 import { categories } from '../navbar/Categories';
@@ -12,7 +13,6 @@ import ListingHead from './ListingHead';
 import ListingInfo from './ListingInfo';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import ListingReservation from './ListingReservation';
-import { Range } from 'react-date-range';
 
 const initialDateRange = {
   startDate: new Date(),
@@ -27,6 +27,7 @@ interface ListingClientProps {
   };
   currentUser?: SafeUser | null;
 }
+
 export default function ListingClient({
   listing,
   currentUser,
@@ -64,7 +65,7 @@ export default function ListingClient({
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
-        listingId: listing,
+        listingId: listing.id,
       })
       .then(() => {
         toast.success('Listing reserved.');
