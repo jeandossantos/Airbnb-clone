@@ -25,7 +25,7 @@ const url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const attribution =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-function Map({ center = [] }: MapProps) {
+function Map({ center }: MapProps) {
   return (
     <MapContainer
       center={(center as L.LatLngExpression) || [51, -0.09]}
@@ -40,10 +40,4 @@ function Map({ center = [] }: MapProps) {
   );
 }
 
-export default memo(Map, (prev, next) => {
-  const prevCenter = prev.center || [];
-
-  if (!prevCenter?.length) return false;
-
-  return true;
-});
+export default Map;

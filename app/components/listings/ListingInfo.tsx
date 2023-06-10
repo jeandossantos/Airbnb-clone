@@ -39,6 +39,7 @@ function ListingInfo({
   });
 
   const coordinates = useMemo(() => {
+    console.log('country');
     return country?.latlng;
   }, [country]);
 
